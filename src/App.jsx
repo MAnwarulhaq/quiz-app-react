@@ -10,8 +10,8 @@ function App() {
 
   return (
     <>
-    <Quiz />
-    {/* <Quizapp /> */}
+    {/* <Quiz /> */}
+    <Quizapp />
     </>
   )
 }
