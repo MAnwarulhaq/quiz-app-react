@@ -48,6 +48,8 @@ const Quizapp = () => {
     return (
         <div>
             <h1>Quiz Application</h1>
+                    <h2>Your Score: {score} / {questions.length}</h2>   
+
             {showScore ? (
                 <div>
                     <h2>Your Score: {score} / {questions.length}</h2>   
