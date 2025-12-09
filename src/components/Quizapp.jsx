@@ -46,7 +46,7 @@ const Quizapp = () => {
     }
 
     return (
-        <div className='min-h-screen flex justify-center items-center bg-gradient-to-br from-indigo-600 to-purple-700 p-5'>
+        <div className='min-h-screen flex justify-center items-center bg-linear-to-br from-indigo-600 to-purple-700 p-5'>
             <div className='bg-white w-full max-w-xl rounded-2xl shadow-2xl p-8 text-gray-900'>
 
                 <h1 className='font-bold text-3xl text-center mb-6 text-indigo-700'>
