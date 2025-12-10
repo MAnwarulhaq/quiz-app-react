@@ -4,14 +4,20 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Quiz from './Quiz.jsx'
 import Quizapp from './components/Quizapp.jsx'
+import StartQuiz from './components/StartQuiz.jsx'
+import { BrowserRouter,Routes,Route } from 'react-router-dom'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-    {/* <Quiz /> */}
-    <Quizapp />
+    <BrowserRouter>
+    <Routes>
+      <Route path='/' element={<StartQuiz/>}/>
+      <Route path='/quiz' element={<Quizapp/>}/>
+    </Routes>
+   
+    </BrowserRouter>
     </>
   )
 }

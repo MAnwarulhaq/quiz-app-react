@@ -1,75 +1,144 @@
-import React, { useState } from "react";
+import React from 'react'
 
-// Simple General Knowledge questions
 const questions = [
-  {
-    question: "World's largest ocean kaunsa hai?",
-    options: ["Atlantic Ocean", "Indian Ocean", "Pacific Ocean", "Arctic Ocean"],
-    answer: "Pacific Ocean"
-  },
-  {
-    question: "Pakistan ka national fruit kya hai?",
-    options: ["Mango", "Apple", "Banana", "Orange"],
-    answer: "Mango"
-  },
-  {
-    question: "Earth ka rotation kis direction me hota hai?",
-    options: ["East to West", "West to East", "North to South", "South to North"],
-    answer: "West to East"
-  },
-  {
-    question: "Human body me sabse bada organ kaunsa hai?",
-    options: ["Heart", "Skin", "Liver", "Lungs"],
-    answer: "Skin"
-  },
-  {
-    question: "2024 me Summer Olympics kahan hone wale hain?",
-    options: ["Tokyo, Japan", "Paris, France", "Los Angeles, USA", "Beijing, China"],
-    answer: "Paris, France"
-  }
+    {
+        question: "World's largest ocean kaunsa hai?",
+        options: ["Atlantic Ocean", "Indian Ocean", "Pacific Ocean", "Arctic Ocean"],
+        answer: "Pacific Ocean"
+    },
+    {
+        question: "Pakistan ka national fruit kya hai?",
+        options: ["Mango", "Apple", "Banana", "Orange"],
+        answer: "Mango"
+    },
+    {
+        question: "Earth ka rotation kis direction me hota hai?",
+        options: ["East to West", "West to East", "North to South", "South to North"],
+        answer: "West to East"
+    },
+    {
+        question: "Human body me sabse bada organ kaunsa hai?",
+        options: ["Heart", "Skin", "Liver", "Lungs"],
+        answer: "Skin"
+    },
+    {
+        question: "2024 me Summer Olympics kahan hone wale hain?",
+        options: ["Tokyo, Japan", "Paris, France", "Los Angeles, USA", "Beijing, China"],
+        answer: "Paris, France"
+    }
 ];
 
-function SimpleQuiz() {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
-  const [showScore, setShowScore] = useState(false);
+const Quizapp = () => {
+    const [currentQuestion, setCurrentQuestion] = React.useState(0);
+    const [score, setScore] = React.useState(0);
+    const [showScore, setShowScore] = React.useState(false);
+    const [clickedOption, setClickedOption] = React.useState(null);
 
-  const handleClick = (option) => {
-    if (option === questions[currentQuestion].answer) {
-      setScore(score + 1);
-    }
-    const next = currentQuestion + 1;
-    if (next < questions.length) {
-      setCurrentQuestion(next);
-    } else {
-      setShowScore(true);
-    }
-  };
+    function handleClick(option) {
+        setClickedOption(option);
 
-  return (
-    <div>
-      <h1>Simple Quiz</h1>
-      {showScore ? (
-        <div>
-          <h2>Your Score: {score} / {questions.length}</h2>
-          <button onClick={() => {
-            setCurrentQuestion(0);
-            setScore(0);
-            setShowScore(false);
-          }}>Restart</button>
-        </div>
-      ) : (
-        <div>
-          <h2>{questions[currentQuestion].question}</h2>
-          {questions[currentQuestion].options.map((option, index) => (
-            <div key={index}>
-              <button onClick={() => handleClick(option)}>{option}</button>
+        if (option === questions[currentQuestion].answer) {
+            setScore(score + 1);
+        }
+
+        setTimeout(() => {
+            const next = currentQuestion + 1;
+            if (next < questions.length) {
+                setCurrentQuestion(next);
+                setClickedOption(null);
+            } else {
+                setShowScore(true);
+            }
+        }, 900);
+    }
+
+    const progress = ((currentQuestion + 1) / questions.length) * 100;
+
+    return (
+        <div className='min-h-screen flex justify-center items-center bg-linear-to-br from-indigo-600 to-purple-700 p-5'>
+            <div className='bg-white w-full max-w-xl rounded-2xl shadow-2xl p-8 text-gray-900'>
+
+                <h1 className='font-bold text-3xl text-center mb-6 text-indigo-700'>
+                    Quiz Application
+                </h1>
+
+                {/* Progress Bar */}
+                <div className='w-full bg-gray-200 rounded-full h-3 mb-6'>
+                    <div
+                        className='bg-indigo-600 h-3 rounded-full transition-all duration-500'
+                        style={{ width: `${progress}%` }}
+                    ></div>
+                </div>
+
+                {showScore ? (
+                    <div className='text-center space-y-5'>
+                        <h2 className='text-2xl font-semibold'>
+                            Your Score: <span className="text-indigo-700">{score}</span> / {questions.length}
+                        </h2>
+
+                        <button
+                            onClick={() => {
+                                setCurrentQuestion(0);
+                                setScore(0);
+                                setShowScore(false);
+                                setClickedOption(null);
+                            }}
+                            className='w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-md text-lg font-medium transition'
+                        >
+                            Restart
+                        </button>
+                    </div>
+                ) : (
+                    <div className='space-y-6'>
+
+                        <div className='text-lg font-medium'>
+                            <span className="text-indigo-700 font-bold">
+                                Question {currentQuestion + 1}
+                            </span> / {questions.length}
+                        </div>
+
+                        <h2 className='text-2xl font-semibold'>
+                            {questions[currentQuestion].question}
+                        </h2>
+
+                        <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
+                            {questions[currentQuestion].options.map((option, index) => {
+
+                                let btnClass =
+                                    "w-full py-3 rounded-lg shadow-sm text-lg font-medium border transition";
+
+                                if (clickedOption) {
+                                    if (option === questions[currentQuestion].answer) {
+                                        btnClass += " bg-green-500 text-white";
+                                    } else if (option === clickedOption) {
+                                        btnClass += " bg-red-500 text-white";
+                                    } else {
+                                        btnClass += " bg-gray-100";
+                                    }
+                                } else {
+                                    btnClass +=
+                                        " bg-gray-100 hover:bg-indigo-600 hover:text-white cursor-pointer";
+                                }
+
+                                return (
+                                    <button
+                                        key={index}
+                                        disabled={clickedOption !== null}
+                                        onClick={() => handleClick(option)}
+                                        className={btnClass}
+                                    >
+                                        {option}
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                    </div>
+                )}
+
             </div>
-          ))}
         </div>
-      )}
-    </div>
-  );
+    )
 }
 
-export default SimpleQuiz;
+export default Quizapp;
